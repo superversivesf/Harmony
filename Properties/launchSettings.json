@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Harmony": {
+      "commandName": "Executable",
+      "nativeDebugging": true
+    }
+  }
+}
