@@ -2,6 +2,8 @@
   "profiles": {
     "Harmony": {
       "commandName": "Executable",
+      "executablePath": "D:\\Dropbox\\Repos\\Harmony\\bin\\Debug\\netcoreapp3.1\\Harmony.exe",
+      "commandLineArgs": "-b 64 -i D:\\Testing\\AAX\\input -o D:\\Testing\\AAX\\output -s D:\\Testing\\AAX\\storage -w D:\\Testing\\AAX\\working -a 8e4ab703",
       "nativeDebugging": true
     }
   }

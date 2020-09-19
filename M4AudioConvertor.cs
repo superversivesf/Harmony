@@ -92,10 +92,17 @@ namespace Audio_Convertor
             var _coverFile = GenerateCover(f);
             var _outputDirectory = ProcessChapters(_intermediateFile, _aaxInfo, _coverFile);
 
-            _logger.Write("Moving Cover file ... ");
-            var _coverFileDestination = Path.Combine(_outputDirectory, "Cover.jpg");
-            System.IO.File.Move(_coverFile, _coverFileDestination);
-            _logger.WriteLine("Done");
+            if (System.IO.File.Exists(_coverFile))
+            {
+                _logger.Write("Moving Cover file ... ");
+                var _coverFileDestination = Path.Combine(_outputDirectory, "Cover.jpg");
+                System.IO.File.Move(_coverFile, _coverFileDestination);
+                _logger.WriteLine("Done");
+            }
+            else
+            {
+                _logger.WriteLine ("Cover file not found");
+            }
 
             _logger.Write("Moving M4 file to storage ... ");
             var _storageFile = Path.Combine(_storageFolder, Path.GetFileName(f));
@@ -224,9 +231,11 @@ namespace Audio_Convertor
             m3uFile.WriteLine($"# EXTINF:{_tagFile.Properties.Duration.TotalSeconds.ToString("0F")},{_aaxInfo.Format.format.tags.title} - {chapter.tags.title}");
             m3uFile.WriteLine(Path.GetFileName(chapterFile));
 
-            var _coverPicture = new TagLib.PictureLazy(coverPath);
-            _tagFile.Tag.Pictures = new IPicture[] { _coverPicture };
-
+            if (System.IO.File.Exists(coverPath))
+            {
+                var _coverPicture = new TagLib.PictureLazy(coverPath);
+                _tagFile.Tag.Pictures = new IPicture[] { _coverPicture };
+            }
             _tagFile.Tag.Title = _title + " - " + chapter.tags.title;
             _tagFile.Tag.AlbumArtists = new string[] { _aaxInfo.Format.format.tags.artist };
             _tagFile.Tag.Album = _title;
