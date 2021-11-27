@@ -3,12 +3,16 @@
   "Id": "47f404e6-a5ee-47f5-b7d9-030cabcc7783",
   "Items": [
     {
+      "Id": "85013d32-e9bb-4ae2-85e1-1f951a7f686b",
+      "Command": ""
+    },
+    {
       "Id": "c4d28c7f-6750-4c1e-a56a-3e4d1ef7626f",
       "Command": "-f"
     },
     {
       "Id": "12a2154e-4dfd-43fc-bb4b-6c00d452af1f",
-      "Command": "-b 64 -i D:\\Testing\\AAX\\input -o D:\\Testing\\AAX\\output -s D:\\Testing\\AAX\\storage -w D:\\Testing\\AAX\\working -a 8e4ab703"
+      "Command": "-i D:\\Harmony\\Input -o D:\\Harmony\\output -s D:\\Harmony\\storage -w D:\\Harmony\\WORKING\\ -a 8e4ab703"
     }
   ]
 }

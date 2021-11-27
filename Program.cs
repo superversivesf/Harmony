@@ -42,6 +42,8 @@ namespace Audio_Convertor
 
             [Option('q', "QuietMode", Required = false, HelpText = "Disable all output", Default = false),]
             public bool quietMode { get; set; }
+            [Option('l', "LoopMode", Required = false, HelpText = "Have the program run to completion then check and run again with a 5 minute sleep between each run", Default = false),]
+            public bool loopMode { get; set; }
         }
 
         static void Main(string[] args)
@@ -60,7 +62,7 @@ namespace Audio_Convertor
             }
             catch (Exception e)
             {
-                Console.WriteLine("Processing failure -> " + e.Message);
+                Console.WriteLine("Processing failure -> " + e.Message + ":" + e.InnerException?.Message);
             }
         }
 
@@ -82,6 +84,7 @@ namespace Audio_Convertor
             var _quietMode = options.quietMode;
             var _workingFolder = options.workingFolder;
             var _logger = new Logger(_quietMode);
+            var _loopMode = options.loopMode;
 
             _logger.WriteLine($"Harmony {Assembly.GetExecutingAssembly().GetName().Version.ToString()}\nCopyright(C) 2020 Harmony\n");
 
@@ -102,11 +105,22 @@ namespace Audio_Convertor
                 return;
             }
 
-            var _aaxProcessor = new AAXAudioConvertor(_activationBytes, _bitrate, _quietMode, _inputFolder, _outputFolder, _storageFolder, _workingFolder);
-            _aaxProcessor.Execute();
+            do
+            {
+                var _aaxProcessor = new AAXAudioConvertor(_activationBytes, _bitrate, _quietMode, _inputFolder, _outputFolder, _storageFolder, _workingFolder);
+                _aaxProcessor.Execute();
 
-            var _m4Processor = new M4AudioConvertor(_bitrate, _quietMode, _inputFolder, _outputFolder, _storageFolder, _workingFolder);
-            _m4Processor.Execute();
+                var _m4Processor = new M4AudioConvertor(_bitrate, _quietMode, _inputFolder, _outputFolder, _storageFolder, _workingFolder);
+                _m4Processor.Execute();
+
+                if (_loopMode)
+                { 
+                    _logger.WriteLine("Run complete, sleeping for 5 mins");
+                    Thread.Sleep(600);
+                }
+
+            } while (_loopMode);
+
         }
     }
 

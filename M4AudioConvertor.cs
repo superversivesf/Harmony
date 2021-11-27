@@ -301,7 +301,6 @@ namespace Audio_Convertor
         private AAXInfo GetM4Info(string f)
         {
             var _logger = new Logger(this.quietMode);
-
             FFProbeHelper.RootExceptionCheck(FFMpegOptions.Options.RootDirectory);
             var _filePath = f;
             var _ffprobe = FFMpegOptions.Options.FFProbeBinary();
@@ -309,9 +308,14 @@ namespace Audio_Convertor
             _logger.Write("Probing ");
 
             var _arguments = $"-print_format json -show_format \"{_filePath}\"";
+            _logger.WriteLine("1");
+            _logger.WriteLine("Filepath -> " + _filePath);
             var _instance = new Instance(_ffprobe, _arguments) { DataBufferCapacity = int.MaxValue };
+            _logger.WriteLine("1");
             _instance.BlockUntilFinished();
+            _logger.WriteLine("3");
             var _formatJson = string.Join(string.Empty, _instance.OutputData);
+            _logger.WriteLine("4");
 
             _logger.Write(".");
 
